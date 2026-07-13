@@ -72,12 +72,8 @@ upskill/*.md
 .agents/**/node_modules/
 .agents/**/*.log
 .agents/usage/
-.agents/AGENTS.md
 .agents/gh
-.agents/skills/job-application-assistant/
-.agents/skills/job-scraper/
-.agents/skills/job-search-setup/
-.agents/skills/upskill/
+
 
 # Brainstorm mockups (superpowers visual companion) - never ship
 .superpowers/
