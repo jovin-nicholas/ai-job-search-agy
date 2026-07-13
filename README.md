@@ -61,7 +61,7 @@ The framework encodes career guidance best practices, including structured evalu
 
 ## Prerequisites
 
-- [Claude Code](https://claude.com/claude-code) (CLI)
+- [Claude Code](https://claude.com/claude-code) (CLI) OR [Google Antigravity (AGY)](https://github.com/google/antigravity) (CLI)
 - Python 3.10+
 - [Bun](https://bun.sh) (for job search CLI tools)
 - LaTeX distribution with `lualatex` and `xelatex`: [TeX Live](https://tug.org/texlive/), [MacTeX](https://tug.org/mactex/), [TinyTeX](https://yihui.org/tinytex/), or [MiKTeX](https://miktex.org/). The CV compiles with `lualatex` (pdflatex often fails on modern MiKTeX installs with `fontawesome5` font-expansion errors); the cover letter compiles with `xelatex` because `cover.cls` requires `fontspec`. If using a minimal TeX install such as TinyTeX or BasicTeX, install the extra packages listed in [SETUP.md](SETUP.md#minimal-tex-install-tinytexbasictex).
@@ -101,10 +101,19 @@ For `linkedin-search` and `freehire-search` the install is optional: both have z
 
 ### 3. Set up your profile
 
+For **Claude Code**:
 ```bash
 claude
 # Then inside Claude Code:
 /setup
+```
+
+For **Google Antigravity (AGY)**:
+```bash
+export ANTIGRAVITY_SAFECLIS_DIR="$(pwd)/.agents"
+agy
+# Then inside AGY, type:
+onboard
 ```
 
 `/setup` offers three paths: read your `documents/` folder if you have one populated (CV PDF, LinkedIn export, diplomas, reference letters, past applications), import a single CV pasted in chat, or walk through an interview. It auto-detects what you have and asks. Documents-folder mode is idempotent and safe to re-run as you add more material; see `documents/README.md` for the layout.
@@ -119,17 +128,45 @@ This searches multiple job portals for positions matching your profile, deduplic
 
 ### 5. Apply to a job
 
+For **Claude Code**:
 ```bash
 /apply https://jobindex.dk/job/1234567
+```
+
+For **Google Antigravity (AGY)** (trigger implicitly by asking):
+```bash
+Apply to this job: https://jobindex.dk/job/1234567
 ```
 
 If the URL can't be fetched (some job portals block automated access), you can paste the job description directly instead:
 
 ```bash
 /apply <paste the full job description here>
+# Or in AGY:
+Apply to this job description: <paste description>
 ```
 
 This runs the full workflow: evaluate fit, draft CV + cover letter, review with a second agent, revise, and present the final output.
+
+## Running with Google Antigravity (AGY)
+
+If you prefer to run this framework using Google's Gemini models (like Gemini 3.5 Flash or Pro) for more cost-effective runs, the repository contains native workspace configurations for **Google Antigravity (AGY)** under the `.agents/` directory.
+
+### Quick Start with AGY:
+1. Make sure the wrapper environment variable is set to locate the local portal search binaries:
+   ```bash
+   export ANTIGRAVITY_SAFECLIS_DIR="$(pwd)/.agents"
+   ```
+2. Start the CLI client:
+   ```bash
+   agy
+   ```
+3. Type simple conversational prompts to run commands (AGY implicitly matches these to trigger the underlying markdown specs without configuration duplication):
+   * `onboard` or `setup` to configure your profile.
+   * `find new jobs` or `scrape` to search portals.
+   * `rank these jobs` to batch-score.
+   * `apply to [company]` to tailor CV and cover letter.
+   * `prepare for my interview at [company]` to run prep protocols.
 
 ## Other commands
 
